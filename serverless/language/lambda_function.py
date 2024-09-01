@@ -1,5 +1,5 @@
 import json
-from handlers import add_language, get_language_by_id, get_all_language
+from handlers import add_language, get_language_by_id, get_all_language, get_comparison
 
 
 def lambda_handler(event, context):
@@ -14,11 +14,18 @@ def lambda_handler(event, context):
         return add_language(language_name, url_image)
 
     elif http_method == "GET" and resource_path == "/language":
-        return get_all_language(event)
+        return get_all_language()
 
     elif http_method == "GET" and resource_path.startswith("/language/"):
         language_id = event["pathParameters"]["id"]
         return get_language_by_id(language_id)
+
+    elif http_method == "POST" and resource_path == "/language/match":
+        body = json.loads(event["body"])
+        liked_lang = body["liked_language_id"] or None
+        exclude_langs = body["exclude_language_ids"] or []
+
+        return get_comparison(liked_lang, exclude_langs)
 
     else:
         return {
