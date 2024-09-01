@@ -146,3 +146,39 @@ def get_comparison(liked_language_id: int = None, excluded_language_ids: list = 
             "body": json.dumps({"message": "Internal server error", "error": str(e)}),
             "headers": {"Content-Type": "application/json"},
         }
+
+
+def update_stats(id_language, status):
+    try:
+        response_lang = language_table.select("*").eq("id", id_language).execute()
+
+        language = response_lang.data[0]
+
+        if status == "wins":
+            language_table.update({"wins": language["wins"] + 1}).eq(
+                "id", id_language
+            ).execute()
+        elif status == "losses":
+            language_table.update({"losses": language["losses"] + 1}).eq(
+                "id", id_language
+            ).execute()
+        else:
+            pass
+
+        return {
+            "statusCode": 200,
+            "body": json.dumps(
+                {
+                    "message": "Languages updated successfully",
+                    "data": "OK",
+                }
+            ),
+            "headers": {"Content-Type": "application/json"},
+        }
+
+    except Exception as e:
+        return {
+            "statusCode": 500,
+            "body": json.dumps({"message": "Internal server error", "error": str(e)}),
+            "headers": {"Content-Type": "application/json"},
+        }

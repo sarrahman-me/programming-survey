@@ -1,4 +1,10 @@
-from handlers import add_language, get_all_language, get_language_by_id, get_comparison
+from handlers import (
+    add_language,
+    get_all_language,
+    get_language_by_id,
+    get_comparison,
+    update_stats,
+)
 import json
 
 
@@ -47,5 +53,11 @@ def test_next_match():
     response = get_comparison(
         liked_language_id=20, excluded_language_ids=[19, 18, 21, 22]
     )
+
+    assert response["statusCode"] == 200
+
+
+def test_update_state():
+    response = update_stats(20, "wins")
 
     assert response["statusCode"] == 200

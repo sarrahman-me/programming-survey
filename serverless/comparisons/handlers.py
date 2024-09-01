@@ -9,7 +9,7 @@ load_dotenv()
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
-language_table = supabase.table("comparisons")
+comparison_table = supabase.table("comparisons")
 
 
 def get_all_comparisons(page: int = 1, limit: int = 25):
@@ -17,7 +17,7 @@ def get_all_comparisons(page: int = 1, limit: int = 25):
         offset = (page - 1) * limit
 
         response = (
-            language_table.select("*", count="exact")
+            comparison_table.select("*", count="exact")
             .offset(offset)
             .limit(limit)
             .execute()
@@ -37,9 +37,38 @@ def get_all_comparisons(page: int = 1, limit: int = 25):
             "statusCode": 200,
             "body": json.dumps(
                 {
-                    "message": "Languages retrieved successfully",
+                    "message": "Comparisons retrieved successfully",
                     "data": response.data,
                     "metadata": metadata,
+                }
+            ),
+            "headers": {"Content-Type": "application/json"},
+        }
+
+    except Exception as e:
+        return {
+            "statusCode": 500,
+            "body": json.dumps({"message": "Internal server error", "error": str(e)}),
+            "headers": {"Content-Type": "application/json"},
+        }
+
+
+def add_comparison(language_a_id, language_b_id, winner_language_id):
+    try:
+        response = comparison_table.insert(
+            {
+                "language_a_id": language_a_id,
+                "language_b_id": language_b_id,
+                "winner_language_id": winner_language_id,
+            }
+        ).execute()
+
+        return {
+            "statusCode": 200,
+            "body": json.dumps(
+                {
+                    "message": "Comparisons added successfully",
+                    "data": response.data,
                 }
             ),
             "headers": {"Content-Type": "application/json"},

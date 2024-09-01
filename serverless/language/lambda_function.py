@@ -1,5 +1,11 @@
 import json
-from handlers import add_language, get_language_by_id, get_all_language, get_comparison
+from handlers import (
+    add_language,
+    get_language_by_id,
+    get_all_language,
+    get_comparison,
+    update_stats,
+)
 
 
 def lambda_handler(event, context):
@@ -26,6 +32,13 @@ def lambda_handler(event, context):
         exclude_langs = body["exclude_language_ids"] or []
 
         return get_comparison(liked_lang, exclude_langs)
+    elif http_method == "PATCH" and resource_path == "/language/stats":
+        language_id = event["pathParameters"]["id"]
+
+        body = json.loads(event["body"])
+        status = body["status"]
+
+        return update_stats(language_id, status)
 
     else:
         return {
