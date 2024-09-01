@@ -20,7 +20,11 @@ def add_language(name, url_image):
             return {
                 "statusCode": 409,
                 "body": json.dumps({"message": f"Language '{name}' already exists."}),
-                "headers": {"Content-Type": "application/json"},
+                "headers": {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "Content-Type",
+                    "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PATCH",
+                },
             }
 
         response = language_table.insert(
@@ -32,14 +36,22 @@ def add_language(name, url_image):
             "body": json.dumps(
                 {"message": "Language added successfully", "data": response.data}
             ),
-            "headers": {"Content-Type": "application/json"},
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PATCH",
+            },
         }
 
     except ValueError as e:
         return {
             "statusCode": 500,
             "body": json.dumps({"message": "Internal server error", "error": str(e)}),
-            "headers": {"Content-Type": "application/json"},
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PATCH",
+            },
         }
 
 
@@ -52,14 +64,22 @@ def get_all_language():
             "body": json.dumps(
                 {"message": "Languages retrieved successfully", "data": response.data}
             ),
-            "headers": {"Content-Type": "application/json"},
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PATCH",
+            },
         }
 
     except ValueError as e:
         return {
             "statusCode": 500,
             "body": json.dumps({"message": "Internal server error", "error": str(e)}),
-            "headers": {"Content-Type": "application/json"},
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PATCH",
+            },
         }
 
 
@@ -76,20 +96,32 @@ def get_language_by_id(language_id):
                         "data": response.data,
                     }
                 ),
-                "headers": {"Content-Type": "application/json"},
+                "headers": {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "Content-Type",
+                    "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PATCH",
+                },
             }
         else:
             return {
                 "statusCode": 404,
                 "body": json.dumps({"message": "Language not found"}),
-                "headers": {"Content-Type": "application/json"},
+                "headers": {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "Content-Type",
+                    "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PATCH",
+                },
             }
 
     except ValueError as e:
         return {
             "statusCode": 500,
             "body": json.dumps({"message": "Internal server error", "error": str(e)}),
-            "headers": {"Content-Type": "application/json"},
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PATCH",
+            },
         }
 
 
@@ -110,7 +142,11 @@ def get_comparison(liked_language_id: int = None, excluded_language_ids: list = 
                     "body": json.dumps(
                         {"message": "No languages available for comparison."}
                     ),
-                    "headers": {"Content-Type": "application/json"},
+                    "headers": {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Headers": "Content-Type",
+                        "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PATCH",
+                    },
                 }
 
             liked_language = (
@@ -125,7 +161,11 @@ def get_comparison(liked_language_id: int = None, excluded_language_ids: list = 
                         "data": [liked_language.data[0], response.data[0]],
                     }
                 ),
-                "headers": {"Content-Type": "application/json"},
+                "headers": {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "Content-Type",
+                    "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PATCH",
+                },
             }
         else:
             response = language_table.select("*").limit(2).execute()
@@ -138,13 +178,21 @@ def get_comparison(liked_language_id: int = None, excluded_language_ids: list = 
                         "data": response.data,
                     }
                 ),
-                "headers": {"Content-Type": "application/json"},
+                "headers": {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "Content-Type",
+                    "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PATCH",
+                },
             }
     except ValueError as e:
         return {
             "statusCode": 500,
             "body": json.dumps({"message": "Internal server error", "error": str(e)}),
-            "headers": {"Content-Type": "application/json"},
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PATCH",
+            },
         }
 
 
@@ -172,12 +220,20 @@ def update_stats(id_language, status):
                     "message": "Languages updated successfully",
                 }
             ),
-            "headers": {"Content-Type": "application/json"},
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PATCH",
+            },
         }
 
     except Exception as e:
         return {
             "statusCode": 500,
             "body": json.dumps({"message": "Internal server error", "error": str(e)}),
-            "headers": {"Content-Type": "application/json"},
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PATCH",
+            },
         }

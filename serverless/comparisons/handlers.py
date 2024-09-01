@@ -44,14 +44,22 @@ def get_all_comparisons(page: int = 1, limit: int = 25):
                     "metadata": metadata,
                 }
             ),
-            "headers": {"Content-Type": "application/json"},
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+            },
         }
 
     except Exception as e:
         return {
             "statusCode": 500,
             "body": json.dumps({"message": "Internal server error", "error": str(e)}),
-            "headers": {"Content-Type": "application/json"},
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+            },
         }
 
 
@@ -77,14 +85,22 @@ def add_comparison(language_a_id, language_b_id, winner_language_id):
                     "data": response.data,
                 }
             ),
-            "headers": {"Content-Type": "application/json"},
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+            },
         }
 
     except Exception as e:
         return {
             "statusCode": 500,
             "body": json.dumps({"message": "Internal server error", "error": str(e)}),
-            "headers": {"Content-Type": "application/json"},
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+            },
         }
 
 
