@@ -170,7 +170,6 @@ def update_stats(id_language, status):
             "body": json.dumps(
                 {
                     "message": "Languages updated successfully",
-                    "data": "OK",
                 }
             ),
             "headers": {"Content-Type": "application/json"},

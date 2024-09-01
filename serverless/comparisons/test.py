@@ -16,7 +16,7 @@ def test_get_all_comparisons():
 
 
 def test_add_new_comparison():
-    response = add_comparison(20, 19, 20)
+    response = add_comparison(22, 23, 22)
 
     print("Response from add_comparison:", response)
 

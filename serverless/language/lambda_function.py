@@ -32,7 +32,7 @@ def lambda_handler(event, context):
         exclude_langs = body["exclude_language_ids"] or []
 
         return get_comparison(liked_lang, exclude_langs)
-    elif http_method == "PATCH" and resource_path == "/language/stats":
+    elif http_method == "PATCH" and resource_path.startswith("/language/"):
         language_id = event["pathParameters"]["id"]
 
         body = json.loads(event["body"])
