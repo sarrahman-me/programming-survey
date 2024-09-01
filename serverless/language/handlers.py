@@ -1,7 +1,8 @@
-import os
 import json
-from supabase import Client, create_client
+import os
+
 from dotenv import load_dotenv
+from supabase import Client, create_client
 
 load_dotenv()
 
@@ -34,7 +35,7 @@ def add_language(name, url_image):
             "headers": {"Content-Type": "application/json"},
         }
 
-    except Exception as e:
+    except ValueError as e:
         return {
             "statusCode": 500,
             "body": json.dumps({"message": "Internal server error", "error": str(e)}),
@@ -54,7 +55,7 @@ def get_all_language():
             "headers": {"Content-Type": "application/json"},
         }
 
-    except Exception as e:
+    except ValueError as e:
         return {
             "statusCode": 500,
             "body": json.dumps({"message": "Internal server error", "error": str(e)}),
@@ -84,7 +85,62 @@ def get_language_by_id(language_id):
                 "headers": {"Content-Type": "application/json"},
             }
 
-    except Exception as e:
+    except ValueError as e:
+        return {
+            "statusCode": 500,
+            "body": json.dumps({"message": "Internal server error", "error": str(e)}),
+            "headers": {"Content-Type": "application/json"},
+        }
+
+
+def get_comparison(liked_language_id: int = None, excluded_language_ids: list = None):
+    try:
+        if liked_language_id:
+            response = (
+                language_table.select("*")
+                .not_.in_("id", excluded_language_ids or [])
+                .neq("id", liked_language_id)
+                .limit(1)
+                .execute()
+            )
+
+            if not response.data:
+                return {
+                    "statusCode": 404,
+                    "body": json.dumps(
+                        {"message": "No languages available for comparison."}
+                    ),
+                    "headers": {"Content-Type": "application/json"},
+                }
+
+            liked_language = (
+                language_table.select("*").eq("id", liked_language_id).execute()
+            )
+
+            return {
+                "statusCode": 200,
+                "body": json.dumps(
+                    {
+                        "message": "Language retrieved successfully",
+                        "data": [liked_language.data[0], response.data[0]],
+                    }
+                ),
+                "headers": {"Content-Type": "application/json"},
+            }
+        else:
+            response = language_table.select("*").limit(2).execute()
+
+            return {
+                "statusCode": 200,
+                "body": json.dumps(
+                    {
+                        "message": "Languages retrieved successfully",
+                        "data": response.data,
+                    }
+                ),
+                "headers": {"Content-Type": "application/json"},
+            }
+    except ValueError as e:
         return {
             "statusCode": 500,
             "body": json.dumps({"message": "Internal server error", "error": str(e)}),

@@ -17,15 +17,12 @@ httpcore==1.0.5
 httpx==0.27.2
 hyperframe==6.0.1
 idna==3.8
-iniconfig==2.0.0
 jmespath==1.0.1
 multidict==6.0.5
 packaging==24.1
-pluggy==1.5.0
 postgrest==0.16.11
 pydantic==2.8.2
 pydantic_core==2.20.1
-pytest==8.3.2
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 realtime==2.0.2

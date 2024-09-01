@@ -1,4 +1,4 @@
-from handlers import add_language, get_all_language, get_language_by_id
+from handlers import add_language, get_all_language, get_language_by_id, get_comparison
 import json
 
 
@@ -29,3 +29,23 @@ def test_get_language_by_id():
 
     assert response["statusCode"] == 200
     assert json.loads(response["body"])["message"] == "Language retrieved successfully"
+
+
+def test_get_language_by_id_not_found():
+    response = get_language_by_id(110)
+
+    assert response["statusCode"] == 404
+
+
+def test_first_match():
+    response = get_comparison()
+
+    assert response["statusCode"] == 200
+
+
+def test_next_match():
+    response = get_comparison(
+        liked_language_id=20, excluded_language_ids=[19, 18, 21, 22]
+    )
+
+    assert response["statusCode"] == 200
