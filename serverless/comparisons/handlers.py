@@ -105,7 +105,7 @@ def add_comparison(language_a_id, language_b_id, winner_language_id):
 
 
 def update_stats_lang(id_language, status):
-    headers = {"Content-Type": "application/json", "Accept": "application/json"}
+    headers = {"Content-Type": "application/json"}
     payload = {"status": status}
 
     try:
@@ -113,10 +113,8 @@ def update_stats_lang(id_language, status):
             f"{lambda_language_url}/{id_language}",
             json=payload,
             headers=headers,
-            timeout=10,
         )
 
-        response.raise_for_status()
         print(response.json())
     except requests.exceptions.RequestException as e:
         print(f"Failed to update language stats: {e}")
