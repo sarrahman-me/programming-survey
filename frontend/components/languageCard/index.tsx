@@ -1,16 +1,22 @@
 "use client"
 
 import { PostDataApi } from "@/utils/fetcher";
+import { setLikedLanguageId, addExcludeLanguageId } from "@/utils/cookieHandler";
 
 export default function LanguageCard({ title, image_url, id, rival_id }: { title: string, image_url: string, id: number, rival_id: number }) {
   const handleClick = async () => {
-    const response = await PostDataApi(`${process.env.NEXT_PUBLIC_SERVER_HOST}/v0/comparisons`, {
+    const response = await PostDataApi(`${process.env.NEXT_PUBLIC_SERVER_HOST}/comparisons`, {
       "language_a_id": id,
       "language_b_id": rival_id,
       "winner_language_id": id
     });
 
-    console.log(response.data)
+    console.log(response);
+
+    setLikedLanguageId(id);
+    addExcludeLanguageId(rival_id);
+
+    window.location.reload()
   }
 
   return (
