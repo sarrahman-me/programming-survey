@@ -16,9 +16,9 @@ export default async function Statistics() {
   const response = await GetDataApi(`${process.env.NEXT_PUBLIC_SERVER_HOST}/language`);
   const languages = response.data.data;
 
-  const languagesSortedByWins: ILanguage[] = [...languages].sort((a, b) => b.wins - a.wins).slice(0, 11);
+  const languagesSortedByWins: ILanguage[] = [...languages].sort((a, b) => b.wins - a.wins);
 
-  const languagesSortedByLosses: ILanguage[] = [...languages].sort((a, b) => b.losses - a.losses).slice(0, 11);
+  const languagesSortedByLosses: ILanguage[] = [...languages].sort((a, b) => b.losses - a.losses);
 
   return (
     <main
@@ -27,10 +27,21 @@ export default async function Statistics() {
     >
       <AppBar title="Statistics" />
       <div className="pt-20 p-4">
+        <div className="mb-8 text-center text-black">
+          Untuk mengetahui bagaimana perhitungan ini dilakukan, silakan baca lebih detail di{" "}
+          <a
+            href="https://github.com/sarrahman-me/programming-survey"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline"
+          >
+            dokumentasi ini
+          </a>.
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div>
             <h2 className="text-xl md:text-2xl font-semibold text-black mb-4 text-center">
-              Bahasa Paling Favorit
+              Bahasa Paling Banyak Dipilih
             </h2>
             <ul className="space-y-4">
               {languagesSortedByWins.map((language, index) => (
@@ -56,7 +67,7 @@ export default async function Statistics() {
 
           <div>
             <h2 className="text-xl md:text-2xl font-semibold text-black mb-4 text-center">
-              Bahasa Yang Kurang Diminati
+              Paling Jarang Dipilih
             </h2>
             <ul className="space-y-4">
               {languagesSortedByLosses.map((language, index) => (

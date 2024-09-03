@@ -36,7 +36,7 @@ export default function WinnerLanguage() {
           {data.name}
         </h2>
         <p className="text-black text-xl md:text-2xl text-center max-w-md">
-          {data.wins < data.losses ?
+          {data.wins > data.losses ?
             "Selamat! Bahasa pilihanmu juga favorit banyak orang!" :
             "Itu Bahasa yang bagus, Namun sayang sekali, bahasa pilihanmu tidak terlalu populer."}
         </p>
