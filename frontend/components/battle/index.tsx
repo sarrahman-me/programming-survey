@@ -15,7 +15,7 @@ export default function Battle() {
       const likedLanguageId = getLikedLanguageId();
       const excludeLanguageIds = getExcludeLanguageIds();
 
-      const response = await PostDataApi(`${process.env.NEXT_PUBLIC_SERVER_HOST}/language/match`, {
+      const response = await PostDataApi(`/api/language/match`, {
         "liked_language_id": likedLanguageId,
         "exclude_language_ids": excludeLanguageIds
       });
