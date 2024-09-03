@@ -10,31 +10,34 @@ export default function Battle() {
   const [data, setData] = useState<ILanguage[]>([]);
   const [isComplete, setComplete] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const likedLanguageId = getLikedLanguageId();
-      const excludeLanguageIds = getExcludeLanguageIds();
+  const fetchData = async () => {
+    const likedLanguageId = getLikedLanguageId();
+    const excludeLanguageIds = getExcludeLanguageIds();
 
-      const response = await PostDataApi(`/api/language/match`, {
-        "liked_language_id": likedLanguageId,
-        "exclude_language_ids": excludeLanguageIds
-      });
+    const response = await PostDataApi(`/api/language/match`, {
+      "liked_language_id": likedLanguageId,
+      "exclude_language_ids": excludeLanguageIds
+    });
 
-      if (response.status == 404) {
-        setComplete(true)
-      }
-
+    if (response.status == 404) {
+      setComplete(true);
+    } else {
       setData(response.data.data);
-    };
+    }
+  };
 
+  useEffect(() => {
     fetchData();
-
   }, []);
+
+  const handleLanguageSelect = () => {
+    fetchData();
+  };
 
   if (isComplete) {
     return (
       <WinnerLanguage />
-    )
+    );
   }
 
   if (!data[0]?.name) {
@@ -54,8 +57,8 @@ export default function Battle() {
       </h1>
       <h2 className="text-xl md:text-2xl text-center font-semibold text-black mb-12">Mana Bahasa Favoritmu?</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full px-8">
-        <LanguageCard id={data[0]?.id} rival_id={data[1]?.id} image_url={data[0]?.url_image} title={data[0]?.name} />
-        <LanguageCard id={data[1]?.id} rival_id={data[0]?.id} image_url={data[1]?.url_image} title={data[1]?.name} />
+        <LanguageCard id={data[0]?.id} rival_id={data[1]?.id} image_url={data[0]?.url_image} title={data[0]?.name} onLanguageSelect={handleLanguageSelect} />
+        <LanguageCard id={data[1]?.id} rival_id={data[0]?.id} image_url={data[1]?.url_image} title={data[1]?.name} onLanguageSelect={handleLanguageSelect} />
       </div>
     </div>
   );
