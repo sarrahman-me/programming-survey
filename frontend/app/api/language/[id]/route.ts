@@ -1,9 +1,9 @@
 import { GetDataApi } from "@/utils/fetcher";
 
-export async function GET() {
+export async function GET(_: Request, { params }: { params: { id: number } }) {
   try {
     const response = await GetDataApi(
-      `${process.env.NEXT_PUBLIC_SERVER_HOST}/language`,
+      `${process.env.NEXT_PUBLIC_SERVER_HOST}/language/${params.id}`,
     );
 
     if (response.status !== 200) {
