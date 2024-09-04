@@ -3,16 +3,17 @@
 import { PostDataApi } from "@/utils/fetcher";
 import { setLikedLanguageId, addExcludeLanguageId } from "@/utils/cookieHandler";
 import Image from "next/image";
+import mixpanel from "@/config/mixpanel";
 
-export default function LanguageCard({ title, image_url, id, rival_id, onLanguageSelect }: { title: string, image_url: string, id: number, rival_id: number, onLanguageSelect: () => void }) {
+export default function LanguageCard({ title, image_url, id, rival_id, rival_name, onLanguageSelect }: { title: string, image_url: string, id: number, rival_id: number, rival_name: string, onLanguageSelect: () => void }) {
   const handleClick = async () => {
-    const response = await PostDataApi(`/api/comparisons`, {
+    await PostDataApi(`/api/comparisons`, {
       "language_a_id": id,
       "language_b_id": rival_id,
       "winner_language_id": id
     });
 
-    console.log(response);
+    mixpanel.track("Voting", { "Bahasa yang dipilih": title, "Bahasa yang tidak dipilih": rival_name });
 
     setLikedLanguageId(id);
     addExcludeLanguageId(rival_id);

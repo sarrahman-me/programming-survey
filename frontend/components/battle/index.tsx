@@ -57,8 +57,8 @@ export default function Battle() {
       </h1>
       <h2 className="text-xl md:text-2xl text-center font-semibold text-black mb-12">Mana Bahasa Favoritmu?</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full px-8">
-        <LanguageCard id={data[0]?.id} rival_id={data[1]?.id} image_url={data[0]?.url_image} title={data[0]?.name} onLanguageSelect={handleLanguageSelect} />
-        <LanguageCard id={data[1]?.id} rival_id={data[0]?.id} image_url={data[1]?.url_image} title={data[1]?.name} onLanguageSelect={handleLanguageSelect} />
+        <LanguageCard id={data[0]?.id} rival_id={data[1]?.id} rival_name={data[1]?.name} image_url={data[0]?.url_image} title={data[0]?.name} onLanguageSelect={handleLanguageSelect} />
+        <LanguageCard id={data[1]?.id} rival_id={data[0]?.id} rival_name={data[0]?.name} image_url={data[1]?.url_image} title={data[1]?.name} onLanguageSelect={handleLanguageSelect} />
       </div>
     </div>
   );
